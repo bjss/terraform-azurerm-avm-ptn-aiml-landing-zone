@@ -82,6 +82,7 @@ Description: Configuration object for the Virtual Network (VNet) to be deployed.
   - `ipam_pools` - (Optional) List of IPAM pools to associate with the subnet. If present, the address\_prefix will be ignored and IPAM pools will be used for address allocation.
     - `pool_id` - The ID of the IPAM pool.
     - `prefix_length` - The prefix length to request from the IPAM pool.
+- `tags` - (Optional) Map of tags to assign to the Virtual Network.
 - `vnet_peering_configuration` - (Optional) Configuration for VNet peering. This is not used for BYO VNet configurations as that is assumed to be handled outside the module.
   - `peer_vnet_resource_id` - (Optional) Resource ID of the peer VNet.
   - `firewall_ip_address` - (Optional) IP address of the firewall for routing.
@@ -125,6 +126,7 @@ object({
       })))
       }
     )), {})
+    tags = optional(map(string))
     vnet_peering_configuration = optional(object({
       peer_vnet_resource_id                = optional(string)
       firewall_ip_address                  = optional(string)
@@ -415,7 +417,7 @@ object({
       semantic_search_sku          = optional(string, "standard")
       semantic_search_enabled      = optional(bool, false)
       hosting_mode                 = optional(string, "default")
-      tags                         = optional(map(string), {})
+      tags                         = optional(map(string))
       role_assignments = optional(map(object({
         role_definition_id_or_name             = string
         principal_id                           = string
@@ -483,7 +485,7 @@ object({
         delegated_managed_identity_resource_id = optional(string, null)
         principal_type                         = optional(string, null)
       })), {})
-      tags = optional(map(string), {})
+      tags = optional(map(string))
     })), {})
 
     key_vault_definition = optional(map(object({
@@ -503,7 +505,7 @@ object({
         delegated_managed_identity_resource_id = optional(string, null)
         principal_type                         = optional(string, null)
       })), {})
-      tags = optional(map(string), {})
+      tags = optional(map(string))
     })), {})
 
     law_definition = optional(map(object({
@@ -511,7 +513,7 @@ object({
       name                 = optional(string)
       retention            = optional(number, 30)
       sku                  = optional(string, "PerGB2018")
-      tags                 = optional(map(string), {})
+      tags                 = optional(map(string))
     })), {})
 
     storage_account_definition = optional(map(object({
@@ -541,7 +543,7 @@ object({
         delegated_managed_identity_resource_id = optional(string, null)
         principal_type                         = optional(string, null)
       })), {})
-      tags = optional(map(string), {})
+      tags = optional(map(string))
     })), {})
   })
 ```
@@ -705,7 +707,7 @@ object({
     }), null)
     sku_root     = optional(string, "Premium")
     sku_capacity = optional(number, 3)
-    tags         = optional(map(string), {})
+    tags         = optional(map(string))
     tenant_access = optional(object({
       enabled = bool
     }), null)
@@ -1035,7 +1037,7 @@ object({
       }))
     })), null)
 
-    tags = optional(map(string), {})
+    tags = optional(map(string))
     role_assignments = optional(map(object({
       role_definition_id_or_name             = string
       principal_id                           = string
@@ -1069,7 +1071,7 @@ object({
     deploy              = optional(bool, true)
     name                = optional(string)
     sku                 = optional(string, "Standard")
-    tags                = optional(map(string), {})
+    tags                = optional(map(string))
     zones               = optional(list(string), ["1", "2", "3"])
     resource_group_name = optional(string)
   })
@@ -1094,7 +1096,7 @@ object({
     deploy           = optional(bool, true)
     name             = optional(string)
     sku              = optional(string, "Standard_B2s")
-    tags             = optional(map(string), {})
+    tags             = optional(map(string))
     enable_telemetry = optional(bool, true)
   })
 ```
@@ -1138,7 +1140,7 @@ object({
     deploy                              = optional(bool, true)
     name                                = optional(string)
     enable_diagnostic_settings          = optional(bool, true)
-    tags                                = optional(map(string), {})
+    tags                                = optional(map(string))
     internal_load_balancer_enabled      = optional(bool, true)
     log_analytics_workspace_resource_id = optional(string)
     zone_redundancy_enabled             = optional(bool, true)
@@ -1204,7 +1206,7 @@ object({
     sku                 = optional(string, "AZFW_VNet")
     tier                = optional(string, "Standard")
     zones               = optional(list(string), ["1", "2", "3"])
-    tags                = optional(map(string), {})
+    tags                = optional(map(string))
     resource_group_name = optional(string)
   })
 ```
@@ -1225,6 +1227,7 @@ Description: Configuration object for the Azure Firewall Policy to be deployed.
   - `source_addresses` - List of source addresses for the rule.
   - `protocols` - List of protocols for the rule (TCP/UDP/ICMP/Any).
 - `resource_group_name` - (Optional) The name of the resource group to deploy the Firewall Policy into. If not provided, the module's resource group will be used.
+- `tags` - (Optional) Map of tags to assign to the Firewall Policy.
 
 Type:
 
@@ -1241,6 +1244,7 @@ object({
       protocols             = list(string)
     })), null)
     resource_group_name = optional(string)
+    tags                = optional(map(string))
   })
 ```
 
@@ -1294,7 +1298,7 @@ object({
     purge_protection_enabled      = optional(bool, true)
     sku                           = optional(string, "standard")
     soft_delete_retention_in_days = optional(number, 7)
-    tags                          = optional(map(string), {})
+    tags                          = optional(map(string))
     role_assignments = optional(map(object({
       role_definition_id_or_name             = string
       principal_id                           = string
@@ -1340,7 +1344,7 @@ object({
     zone_redundancy_enabled       = optional(bool, true)
     public_network_access_enabled = optional(bool, false)
     enable_diagnostic_settings    = optional(bool, true)
-    tags                          = optional(map(string), {})
+    tags                          = optional(map(string))
     role_assignments = optional(map(object({
       role_definition_id_or_name             = string
       principal_id                           = string
@@ -1394,6 +1398,7 @@ Description: Configuration object for the Azure Cosmos DB account to be created 
   - `allowed_origins` - Set of allowed origins.
   - `exposed_headers` - Set of exposed headers.
   - `max_age_in_seconds` - (Optional) Maximum age in seconds for CORS.
+- `tags` - (Optional) Map of tags to assign to the Cosmos DB account.
 
 Type:
 
@@ -1441,6 +1446,7 @@ object({
       exposed_headers    = set(string)
       max_age_in_seconds = optional(number, null)
     }), null)
+    tags = optional(map(string))
   })
 ```
 
@@ -1494,7 +1500,7 @@ object({
       delegated_managed_identity_resource_id = optional(string, null)
       principal_type                         = optional(string, null)
     })), {})
-    tags = optional(map(string), {})
+    tags = optional(map(string))
   })
 ```
 
@@ -1548,7 +1554,7 @@ object({
       delegated_managed_identity_resource_id = optional(string, null)
       principal_type                         = optional(string, null)
     })), {})
-    tags = optional(map(string), {})
+    tags = optional(map(string))
 
     #TODO:
     # Implement subservice passthrough here
@@ -1573,7 +1579,7 @@ object({
     deploy           = optional(bool, true)
     name             = optional(string)
     sku              = optional(string, "Standard_B2s")
-    tags             = optional(map(string), {})
+    tags             = optional(map(string))
     enable_telemetry = optional(bool, true)
   })
 ```
@@ -1617,7 +1623,7 @@ object({
     public_network_access_enabled = optional(bool, false)
     replica_count                 = optional(number, 2)
     semantic_search_sku           = optional(string, "standard")
-    tags                          = optional(map(string), {})
+    tags                          = optional(map(string))
     role_assignments = optional(map(object({
       role_definition_id_or_name             = string
       principal_id                           = string
@@ -1650,7 +1656,7 @@ object({
     deploy = optional(bool, true)
     name   = optional(string)
     sku    = optional(string, "G1")
-    tags   = optional(map(string), {})
+    tags   = optional(map(string))
   })
 ```
 
@@ -1659,7 +1665,7 @@ Default: `{}`
 ### <a name="input_law_definition"></a> [law\_definition](#input\_law\_definition)
 
 Description: Configuration object for the Log Analytics Workspace to be created for monitoring and logging.
-
+- `deploy` - (Optional) Boolean to indicate whether to deploy a new Log Analytics Workspace if no resource\_id is provided. Default is true.
 - `resource_id` - (Optional) The resource ID of an existing Log Analytics Workspace to use. If provided, the workspace will not be created and the other inputs will be ignored.
 - `name` - (Optional) The name of the Log Analytics Workspace. If not provided, a name will be generated.
 - `retention` - (Optional) The data retention period in days for the workspace. Default is 30.
@@ -1670,11 +1676,12 @@ Type:
 
 ```hcl
 object({
+    deploy      = optional(bool, true)
     resource_id = optional(string)
     name        = optional(string)
     retention   = optional(number, 30)
     sku         = optional(string, "PerGB2018")
-    tags        = optional(map(string), {})
+    tags        = optional(map(string))
   })
 ```
 
@@ -1717,7 +1724,8 @@ Description: Configuration object for Network Security Groups (NSGs) to be deplo
     - `delete` - (Optional) Delete timeout.
     - `read` - (Optional) Read timeout.
     - `update` - (Optional) Update timeout.
-  - `resource_group_name` - (Optional) The name of the resource group to deploy the NSG into. If not provided, the module's resource group will be used.
+- `resource_group_name` - (Optional) The name of the resource group to deploy the NSG into. If not provided, the module's resource group will be used.
+- `tags` - (Optional) Map of tags to assign to the Network Security Group.
 
 Type:
 
@@ -1749,6 +1757,7 @@ object({
       }))
     })))
     resource_group_name = optional(string)
+    tags                = optional(map(string))
   })
 ```
 
@@ -1890,7 +1899,7 @@ object({
       }
     })
 
-    tags = optional(map(string), {})
+    tags = optional(map(string))
   })
 ```
 
