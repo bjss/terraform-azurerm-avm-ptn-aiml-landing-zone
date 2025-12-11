@@ -1885,6 +1885,10 @@ Default: `{}`
 
 The following outputs are exported:
 
+### <a name="output_apim"></a> [apim](#output\_apim)
+
+Description: Resource outputs for apim
+
 ### <a name="output_resource_id"></a> [resource\_id](#output\_resource\_id)
 
 Description: Future resource ID output for the LZA.
